@@ -1,70 +1,120 @@
-# Getting Started with Create React App
+# ToDo App with React
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Adapted from [this tutorial](https://www.youtube.com/watch?v=W0Uf_xu350k), this is a demo project for an elegant todo list (focused on learning some React concepts)
 
-## Available Scripts
+# Main Concepts
 
-In the project directory, you can run:
+## 1. Handling Styles
 
-### `npm start`
+### For CSS
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+There are 2 options
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. It can be imported directly in any JS file.
+   To have global CSS files, import them in `index.js`
 
-### `npm test`
+```
+import './styles/GlobalStyles.css'
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. It can included in `index.html`
 
-### `npm run build`
+### For SCSS
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+These are the steps:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Install 3 dependecies: `sass`, `sass-loader `, `style-loader`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. Import the scss module as a style in the JS file as with the CSS
 
-### `npm run eject`
+```
+import style from './styles/modules/app.module.scss';
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+3. Use style.[styleName] as a className property for the element you need to style
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+<div className={style.app__wrapper}>
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Note: to use multiple styles, you need a utility function to concantenate an array of styles:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```
+export const getClasses = (classes) => {
+    return classes.filter(item => item !== '').join(' ').trim();
+}
+```
 
-## Learn More
+## 2. React {children} prop
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The natural way to treat some React components (e.g. headings / buttons / links ...) in a similar way to HTML is to:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. Use the text to display between the component tags
 
-### Code Splitting
+```
+<PageTitle>TODO LIST</PageTitle>
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+2. Use the {children} prop in the child component to render the text from the parent
 
-### Analyzing the Bundle Size
+```
+function PageTitle({ children }) {
+    return (
+        <p className={style.title}>{children}</p>
+    )
+}
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 3. Integrating Redux with React
 
-### Making a Progressive Web App
+See [this repo](https://github.com/3omdawy/react-redux-todos)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## 4. Using browser local storage
 
-### Advanced Configuration
+- Local storage in the browser can be used to store data (e.g. todos) as key-value pairs (both are strings)
+- To read data:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```
+JSON.parse(window.localStorage.getItem('todolist'))
+```
 
-### Deployment
+- To save data:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```
+window.localStorage.setItem('todolist', JSON.stringify(localTodolist));
+```
 
-### `npm run build` fails to minify
+- To view the saved data in the dev tools:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```
+Application => Storage => Local storage
+```
+
+## 5. Using react-hot-toast 😉
+
+It is a very simple and useful library to display toasts in React.
+See [this GitHub repo](https://github.com/timolins/react-hot-toast). Simply call:
+
+```
+toast.success('Task added successfully');
+```
+
+and add the following in App.js:
+
+```
+      <Toaster toastOptions={{
+        position: 'bottom-right',
+        style: {
+          fontSize: "1.4rem",
+        }
+      }} />
+```
+
+# Installation Steps
+
+```
+git clone [GitHub Repo Path]
+cd [into the directory]
+npm install
+npm start
+```
