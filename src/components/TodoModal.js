@@ -2,27 +2,38 @@ import React, { useState } from 'react'
 import styles from '../styles/modules/modal.module.scss';
 import { MdOutlineClose } from 'react-icons/md';
 import { Button } from './Button';
-import { addTodo } from '../slices/todoSlice';
+import { addTodo, updateTodo } from '../slices/todoSlice';
 import { useDispatch } from 'react-redux';
 import { v4 as uuid } from 'uuid';
 import toast from 'react-hot-toast';
 
-function TodoModal({ closeHandler }) {
+function TodoModal({ closeHandler, type = "add", todo = {} }) {
 
-    const [title, setTitle] = useState('');
-    const [status, setStatus] = useState('incomplete');
+    const [title, setTitle] = useState(type === "add" ? '' : todo.title);
+    const [status, setStatus] = useState(type === "add" ? 'incomplete' : todo.status);
 
     const dispatch = useDispatch();
 
     const handleSubmit = e => {
         e.preventDefault();
-        dispatch(addTodo({
-            id: uuid(),
-            title,
-            status,
-            time: Date(),
-        }));
-        toast.success('Task added successfully');
+        if (type === "add") {
+            dispatch(addTodo({
+                id: uuid(),
+                title,
+                status,
+                time: new Date().toLocaleString(),
+            }));
+            toast.success('Task added successfully');
+        }
+        else if (type === "update") {
+            dispatch(updateTodo({
+                id: todo.id,
+                title,
+                status,
+            }));
+            toast.success('Task modified successfully');
+        }
+        else { }
         closeHandler();
     }
 
@@ -33,7 +44,7 @@ function TodoModal({ closeHandler }) {
                     <MdOutlineClose></MdOutlineClose>
                 </div>
                 <form className={styles.form} onSubmit={e => handleSubmit(e)}>
-                    <h1 className={styles.formTitle}>Add Task</h1>
+                    <h1 className={styles.formTitle}>{type === "add" ? 'Add Task' : 'Update Task'}</h1>
 
                     <label htmlFor='title'>
                         Title
@@ -49,7 +60,7 @@ function TodoModal({ closeHandler }) {
                     </label>
 
                     <div className={styles.buttonContainer}>
-                        {title && <Button type='submit' variant='primary'>Add Task</Button>}
+                        {title && <Button type='submit' variant='primary'>{type === "add" ? 'Add Task' : 'Update Task'}</Button>}
                         <Button variant='secondary' onClick={() => closeHandler()}>Cancel</Button>
                     </div>
                 </form>
