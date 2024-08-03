@@ -13,9 +13,11 @@ function Button({ children, type, variant, ...rest }) {
     )
 }
 
-function SelectButton({ children, ...rest }) {
+function SelectButton({ value, selectChangeCbk, children, ...rest }) {
     return (
-        <select className={getClasses([style.button, style.button__select])} {...rest}>{children}</select>
+        <select onChange={(e) => selectChangeCbk(e.target.value)}
+            value={value}
+            className={getClasses([style.button, style.button__select])} {...rest}>{children}</select>
     )
 }
 

@@ -4,7 +4,10 @@ import { useSelector } from 'react-redux';
 import TodoItem from './TodoItem';
 
 function AppContent() {
-  const todolist = useSelector((state) => state.todo.todolist);
+  const todolist = useSelector((state) => state.todo.todolist.filter(item => {
+    if (state.todo.filterStatus === 'all') return true;
+    else return state.todo.filterStatus === item.status;
+  }));
   const sortedTodoList = [...todolist];
   sortedTodoList.sort((a, b) => new Date(b.time) - new Date(a.time));
 

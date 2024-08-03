@@ -13,6 +13,7 @@ function getInitialTodos() {
 
 const initialValue = {
     todolist: getInitialTodos(),
+    filterStatus: 'all',
 }
 
 export const todoSlice = createSlice({
@@ -48,8 +49,12 @@ export const todoSlice = createSlice({
             //console.log(newState);
             return newState;
         },
+        updateFilter: (state, action) => {
+            let newState = { ...state, filterStatus: action.payload.filter }; // Shallow copy
+            return newState
+        }
     }
 })
 
-export const { addTodo, deleteTodo, updateTodo } = todoSlice.actions;
+export const { addTodo, deleteTodo, updateTodo, updateFilter } = todoSlice.actions;
 export default todoSlice.reducer;
