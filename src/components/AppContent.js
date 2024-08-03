@@ -13,7 +13,7 @@ function AppContent() {
 
   return (
     <div className={styles.content__wrapper}>{
-      sortedTodoList.length === 0 ? <p>No todos found</p> :
+      sortedTodoList.length === 0 ? <p className={styles.emptyText}>No todos found</p> :
         sortedTodoList.map(item => <TodoItem key={item.id} todo={item} />)
     }</div>
   )
