@@ -110,6 +110,11 @@ and add the following in App.js:
       }} />
 ```
 
+## 6. Using framer-motion
+
+It is a simple and useful library for making animations.
+See [this GitHub repo](https://github.com/framer/motion/tree/main/packages/framer-motion). See `CheckButton.js`
+
 # Installation Steps
 
 ```
