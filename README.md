@@ -1,6 +1,7 @@
 # ToDo App with React
 
 Adapted from [this tutorial](https://www.youtube.com/watch?v=W0Uf_xu350k), this is a demo project for an elegant todo list (focused on learning some React concepts)
+![ToDo](https://github.com/user-attachments/assets/0dd6fd5c-9bef-41c8-b890-9f222b38d636)
 
 # Main Concepts
 
